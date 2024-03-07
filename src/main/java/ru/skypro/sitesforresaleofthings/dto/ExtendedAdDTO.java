@@ -1,6 +1,8 @@
 package ru.skypro.sitesforresaleofthings.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * DTO расширенного объявления
@@ -19,6 +21,8 @@ import lombok.Data;
  * 9) title - заголовок объявления
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ExtendedAdDTO {
 
     private Integer pk;

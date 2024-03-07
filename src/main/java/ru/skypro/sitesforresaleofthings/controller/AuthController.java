@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.skypro.sitesforresaleofthings.constant.Role;
 import ru.skypro.sitesforresaleofthings.dto.Login;
 import ru.skypro.sitesforresaleofthings.dto.Register;
 import ru.skypro.sitesforresaleofthings.service.AuthService;
+
+import static ru.skypro.sitesforresaleofthings.constant.Role.USER;
 
 /**
  * Контроллер по работе с авторизациями и регистрациями
@@ -61,7 +64,8 @@ public class AuthController {
             description = "Bad Request"
     )
     public ResponseEntity<?> register(@RequestBody Register register) {
-        if (authService.register(register)) {
+        Role role = register.getRole() == null ? USER : register.getRole();
+        if (authService.register(register, role)) {
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

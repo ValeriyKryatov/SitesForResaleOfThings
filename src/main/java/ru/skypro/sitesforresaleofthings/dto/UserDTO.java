@@ -1,7 +1,12 @@
 package ru.skypro.sitesforresaleofthings.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.skypro.sitesforresaleofthings.constant.Role;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 /**
  * DTO пользователя
@@ -18,6 +23,8 @@ import ru.skypro.sitesforresaleofthings.constant.Role;
  * 7) image - ссылка на аватар пользователя
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserDTO {
 
     private Integer id;
@@ -25,6 +32,7 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String phone;
+    @Enumerated(EnumType.STRING)
     private Role role;
     private String image;
 }

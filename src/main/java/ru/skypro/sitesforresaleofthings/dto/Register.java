@@ -4,6 +4,8 @@ import lombok.Data;
 import ru.skypro.sitesforresaleofthings.constant.Regex;
 import ru.skypro.sitesforresaleofthings.constant.Role;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

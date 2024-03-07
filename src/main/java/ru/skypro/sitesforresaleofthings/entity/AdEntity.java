@@ -1,5 +1,6 @@
 package ru.skypro.sitesforresaleofthings.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,7 @@ import java.util.Collection;
  */
 @Table(name = "ads")
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class Ad {
+public class AdEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +33,10 @@ public class Ad {
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private User author;
+    private UserEntity author;
 
-    @Column(name = "image_ad")
-    private String image;
+    @Column(name = "image_path")
+    private String imagePath;
 
     @Column(name = "price_ad")
     private Integer price;
@@ -49,5 +48,6 @@ public class Ad {
     private String description;
 
     @OneToMany(mappedBy = "ad")
-    private Collection<Comment> comments;
+    @JsonIgnore
+    private Collection<CommentEntity> comments;
 }

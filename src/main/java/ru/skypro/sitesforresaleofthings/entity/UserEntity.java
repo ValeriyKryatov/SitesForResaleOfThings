@@ -1,5 +1,6 @@
 package ru.skypro.sitesforresaleofthings.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +30,7 @@ import java.util.Collection;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,12 +55,15 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+
     @Column(name = "user_role")
+    @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Column(name = "image_user")
+    @Column(name = "image")
     private String image;
 
     @OneToMany(mappedBy = "author")
-    private Collection<Ad> ads;
+    @JsonIgnore
+    private Collection<AdEntity> ads;
 }

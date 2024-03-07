@@ -4,51 +4,52 @@ import org.springframework.stereotype.Service;
 import ru.skypro.sitesforresaleofthings.dto.AdDTO;
 import ru.skypro.sitesforresaleofthings.dto.CreateOrUpdateAdDTO;
 import ru.skypro.sitesforresaleofthings.dto.ExtendedAdDTO;
-import ru.skypro.sitesforresaleofthings.entity.Ad;
-import ru.skypro.sitesforresaleofthings.entity.User;
+import ru.skypro.sitesforresaleofthings.entity.AdEntity;
+import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 
 /**
  * Создаем сервис(маппер), который устанавливает соответствие(маппит) из сущности в DTO и обратно
  */
+
 @Service
 public class AdMapper {
 
-    public Ad toEntity(CreateOrUpdateAdDTO dto, User author) {
-        Ad ad = new Ad();
-        ad.setDescription(dto.getDescription());
-        ad.setTitle(dto.getTitle());
-        ad.setPrice(dto.getPrice());
-        ad.setAuthor(author);
-        return ad;
+    public AdEntity mapToEntity(CreateOrUpdateAdDTO dto, UserEntity author) {
+        AdEntity adEntity = new AdEntity();
+        adEntity.setDescription(dto.getDescription());
+        adEntity.setTitle(dto.getTitle());
+        adEntity.setPrice(dto.getPrice());
+        adEntity.setAuthor(author);
+        return adEntity;
     }
 
-    public AdDTO toDTO(Ad ad) {
-        AdDTO adDTO = new AdDTO();
-        adDTO.setPk(ad.getPk());
-        adDTO.setAuthor(ad.getAuthor().getId());
-        adDTO.setImage(ad.getImage());
-        adDTO.setPrice(ad.getPrice());
-        adDTO.setTitle(ad.getTitle());
-        if (ad.getImage() != null) {
-            adDTO.setImage(String.format("/ads/image/%s", ad.getImage()));
+    public AdDTO mapToDTO(AdEntity entity) {
+        AdDTO dto = new AdDTO();
+        dto.setPk(entity.getPk());
+        dto.setAuthor(entity.getAuthor().getId());
+        dto.setImage(entity.getImagePath());
+        dto.setPrice(entity.getPrice());
+        dto.setTitle(entity.getTitle());
+        if (entity.getImagePath() != null) {
+            dto.setImage(String.format("/ads/image/%s", entity.getImagePath()));
         } else {
-            adDTO.setImage(null);
+            dto.setImage(null);
         }
-        return adDTO;
+        return dto;
     }
 
-    public ExtendedAdDTO extendedAdDTOtoDTO(Ad ad) {
+    public ExtendedAdDTO adEntityMapToDTO(AdEntity entity) {
         ExtendedAdDTO extendedAdDTO = new ExtendedAdDTO();
-        extendedAdDTO.setPk(ad.getPk());
-        extendedAdDTO.setAuthorFirstName(ad.getAuthor().getFirstName());
-        extendedAdDTO.setAuthorLastName(ad.getAuthor().getLastName());
-        extendedAdDTO.setDescription(ad.getDescription());
-        extendedAdDTO.setEmail(ad.getAuthor().getEmail());
-        extendedAdDTO.setPhone(ad.getAuthor().getPhone());
-        extendedAdDTO.setPrice(ad.getPrice());
-        extendedAdDTO.setTitle(ad.getTitle());
-        if (ad.getImage() != null) {
-            extendedAdDTO.setImage(String.format("/ads/image/%s", ad.getImage()));
+        extendedAdDTO.setPk(entity.getPk());
+        extendedAdDTO.setAuthorFirstName(entity.getAuthor().getFirstName());
+        extendedAdDTO.setAuthorLastName(entity.getAuthor().getLastName());
+        extendedAdDTO.setDescription(entity.getDescription());
+        extendedAdDTO.setEmail(entity.getAuthor().getEmail());
+        extendedAdDTO.setPhone(entity.getAuthor().getPhone());
+        extendedAdDTO.setPrice(entity.getPrice());
+        extendedAdDTO.setTitle(entity.getTitle());
+        if (entity.getImagePath() != null) {
+            extendedAdDTO.setImage(String.format("/ads/image/%s", entity.getImagePath()));
         } else {
             extendedAdDTO.setImage(null);
         }

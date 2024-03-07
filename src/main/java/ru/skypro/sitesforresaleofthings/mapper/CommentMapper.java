@@ -3,9 +3,9 @@ package ru.skypro.sitesforresaleofthings.mapper;
 import org.springframework.stereotype.Service;
 import ru.skypro.sitesforresaleofthings.dto.CommentDTO;
 import ru.skypro.sitesforresaleofthings.dto.CreateOrUpdateCommentDTO;
-import ru.skypro.sitesforresaleofthings.entity.Ad;
-import ru.skypro.sitesforresaleofthings.entity.Comment;
-import ru.skypro.sitesforresaleofthings.entity.User;
+import ru.skypro.sitesforresaleofthings.entity.AdEntity;
+import ru.skypro.sitesforresaleofthings.entity.CommentEntity;
+import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,32 +17,31 @@ import java.util.TimeZone;
 @Service
 public class CommentMapper {
 
-    public CommentDTO toDTO(Comment comment) {
+       public CommentDTO mapToDTO(CommentEntity entity) {
 
         TimeZone timeZone = TimeZone.getDefault();
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(comment.getCreatedAt(), timeZone.toZoneId());
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(entity.getCreatedAt(), timeZone.toZoneId());
 
-        CommentDTO commentDTO = new CommentDTO();
-        commentDTO.setAuthor(comment.getAuthor().getId());
-        commentDTO.setAuthorFirstName(comment.getAuthor().getFirstName());
-        commentDTO.setPk(comment.getPk());
-        commentDTO.setAuthorImage(comment.getAuthor().getImage());
-        commentDTO.setCreatedAt(localDateTime);
-        commentDTO.setText(comment.getText());
-        if (comment.getAuthor().getImage() != null) {
-            commentDTO.setAuthorImage(String.format("/ads/image/%s", comment.getAuthor().getImage()));
+        CommentDTO dto = new CommentDTO();
+        dto.setAuthor(entity.getAuthor().getId());
+        dto.setAuthorFirstName(entity.getAuthor().getFirstName());
+        dto.setPk(entity.getPk());
+        dto.setCreatedAt(localDateTime);
+        dto.setText(entity.getText());
+        if (entity.getAuthor().getImage() != null) {
+            dto.setAuthorImage(String.format("/ads/image/%s", entity.getAuthor().getImage()));
         } else {
-            commentDTO.setAuthorImage(null);
+            dto.setAuthorImage(null);
         }
-        return commentDTO;
+        return dto;
     }
 
-    public Comment toEntity(CreateOrUpdateCommentDTO createOrUpdateCommentDTO, User author, Ad ad) {
-        Comment comment = new Comment();
-        comment.setText(createOrUpdateCommentDTO.getText());
-        comment.setAd(ad);
-        comment.setAuthor(author);
-        comment.setCreatedAt(Instant.now());
-        return comment;
+    public CommentEntity mapToEntity(CreateOrUpdateCommentDTO dto, UserEntity author, AdEntity adEntity) {
+        CommentEntity entity = new CommentEntity();
+        entity.setText(dto.getText());
+        entity.setAd(adEntity);
+        entity.setAuthor(author);
+        entity.setCreatedAt(Instant.now());
+        return entity;
     }
 }

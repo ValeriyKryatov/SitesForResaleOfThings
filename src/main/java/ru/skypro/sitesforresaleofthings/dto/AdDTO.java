@@ -1,6 +1,8 @@
 package ru.skypro.sitesforresaleofthings.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * DTO объявления
@@ -15,6 +17,8 @@ import lombok.Data;
  * 5) title - заголовок объявления
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdDTO {
 
     private Integer author;

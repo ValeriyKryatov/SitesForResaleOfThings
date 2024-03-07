@@ -1,6 +1,8 @@
 package ru.skypro.sitesforresaleofthings.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +20,8 @@ import java.time.LocalDateTime;
  * 6) text - текст комментария
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentDTO {
 
     private Integer author;

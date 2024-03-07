@@ -4,26 +4,31 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.skypro.sitesforresaleofthings.dto.CommentDTO;
 import ru.skypro.sitesforresaleofthings.dto.CommentsDTO;
 import ru.skypro.sitesforresaleofthings.dto.CreateOrUpdateCommentDTO;
+import ru.skypro.sitesforresaleofthings.service.CommentService;
+
+import java.security.Principal;
 
 /**
  * Контроллер по работе с комментариями
  */
+
+@Slf4j
+@CrossOrigin(value = "http://localhost:3000")
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("ads")
 @Tag(name = "Комментарии")
-public class CommentsController {
+public class CommentController {
 
-    // здесь будут поля сервисов
-
-    public CommentsController() {
-    }
-
-    // здесь будет конструктор с параметрами
+    private final CommentService commentService;
 
     @GetMapping("/{id}/comments")
     @Operation(
@@ -41,10 +46,14 @@ public class CommentsController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentDTO> getComments(@PathVariable long id,
-                                                  @RequestBody CommentsDTO commentsDTO) {
-        // написать код + продумать возможные исключения
-        return ResponseEntity.ok(new CommentDTO());
+    public ResponseEntity<CommentsDTO> getComments(@PathVariable Integer pk) {
+        try {
+            CommentsDTO commentDTO = commentService.getComments(pk);
+            return ResponseEntity.ok(commentDTO);
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @PostMapping("/{id}/comments")
@@ -63,10 +72,16 @@ public class CommentsController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentDTO> addComment(@PathVariable long id,
-                                                 @RequestBody CreateOrUpdateCommentDTO createOrUpdateCommentDTO) {
-        // написать код + продумать возможные исключения
-        return ResponseEntity.ok(new CommentDTO());
+    public ResponseEntity<CommentDTO> addComment(@PathVariable Integer pk,
+                                                 @RequestBody CreateOrUpdateCommentDTO createOrUpdateCommentDTO,
+                                                 Principal principal) {
+        try {
+            CommentDTO comment = commentService.saveComment(pk, createOrUpdateCommentDTO, principal.getName());
+            return ResponseEntity.ok(comment);
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @DeleteMapping("/{adId}/comments/{commentId}")
@@ -89,10 +104,15 @@ public class CommentsController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentDTO> deleteComment(@PathVariable long adId,
-                                                    @PathVariable long commentId) {
-        // написать код + продумать возможные исключения
-        return ResponseEntity.ok().build();
+    public ResponseEntity<?> deleteComment(@PathVariable Integer adPk,
+                                                    @PathVariable Integer commentId,
+                                                    Principal principal) {
+        try {
+            return ResponseEntity.ok(commentService.deleteComment(adPk, commentId, principal.getName()));
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @PatchMapping("/{adId}/comments/{commentId}")
@@ -115,10 +135,16 @@ public class CommentsController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentDTO> updateComment(@PathVariable long adId,
-                                                    @PathVariable long commentId,
-                                                    @RequestBody CreateOrUpdateCommentDTO createOrUpdateCommentDTO) {
-        // написать код + продумать возможные исключения
-        return ResponseEntity.ok(new CommentDTO());
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable Integer adPk,
+                                                    @PathVariable Integer commentId,
+                                                    @RequestBody CommentDTO dto,
+                                                    Principal principal) {
+        try {
+            CommentDTO commentDTO = commentService.updateComment(adPk, commentId, dto, principal.getName());
+            return ResponseEntity.ok(commentDTO);
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 }

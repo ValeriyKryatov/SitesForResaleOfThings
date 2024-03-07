@@ -20,6 +20,8 @@
 
   <properties>
     <java.version>11</java.version>
+<!--    <org.mapstruct.version>1.6.0.Beta1</org.mapstruct.version>-->
+<!--    <org.projectlombok.version>1.18.16</org.projectlombok.version>-->
   </properties>
 
   <dependencies>
@@ -71,6 +73,16 @@
       <artifactId>springdoc-openapi-ui</artifactId>
       <version>1.6.11</version>
     </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.mapstruct</groupId>-->
+<!--      <artifactId>mapstruct</artifactId>-->
+<!--      <version>${org.mapstruct.version}</version>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.mapstruct</groupId>-->
+<!--      <artifactId>mapstruct-processor</artifactId>-->
+<!--      <version>${org.mapstruct.version}</version>-->
+<!--    </dependency>-->
   </dependencies>
 
   <build>

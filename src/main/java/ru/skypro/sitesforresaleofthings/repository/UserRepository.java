@@ -1,10 +1,22 @@
 package ru.skypro.sitesforresaleofthings.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.skypro.sitesforresaleofthings.entity.User;
+import org.springframework.stereotype.Repository;
+import ru.skypro.sitesforresaleofthings.entity.UserEntity;
+
+import java.util.Optional;
 
 /**
  * Создаем репозиторий для сущности "Пользователь"
  */
-public interface UserRepository extends JpaRepository<User, Integer> {
+
+@Repository
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+
+    /**
+     * Поиск пользователя по логину
+     * @param username логин пользователя
+     * @return найденный пользователь
+     */
+    UserEntity findByUsername(String username);
 }
