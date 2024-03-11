@@ -31,7 +31,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public String addImage(MultipartFile image) {
-
         ImageEntity imageEntity = new ImageEntity();
         try {
             String fileName = UUID.randomUUID() + type(image);
@@ -47,7 +46,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public byte[] loadImage(String fileName) {
-
         File image;
         byte[] outputFileBytes = null;
         try {
@@ -69,7 +67,6 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public byte[] loadImageFail(String fileName) {
-
         File image;
         byte[] outputFileBytes = null;
         try {
@@ -83,11 +80,9 @@ public class ImageServiceImpl implements ImageService {
     }
 
     private String type(MultipartFile image) {
-
         String type = image.getContentType();
         assert type != null;
         type = type.replace("image/", ".");
-
         return type;
     }
 }

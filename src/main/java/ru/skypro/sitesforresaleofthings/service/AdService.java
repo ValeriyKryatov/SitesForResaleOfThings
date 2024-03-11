@@ -31,29 +31,29 @@ public interface AdService {
     /**
      * Получить информацию об объявлении по id
      *
-     * @param pk идентификатор объявления
+     * @param id идентификатор объявления
      * @return информация об объявлении
      */
-    ExtendedAdDTO getFullAdsById(Integer pk);
+    ExtendedAdDTO getFullAdsById(Integer id);
 
     /**
      * Удалить объявление по id
      *
-     * @param pk          идентификатор объявления
+     * @param id          идентификатор объявления
      * @param userDetails информация о пользователе
      * @return true or false
      */
-    boolean deleteAdById(Integer pk, String userDetails);
+    boolean deleteAdById(Integer id, String userDetails);
 
     /**
      * Обновить информацию об объявлении по id
      *
-     * @param pk          идентификатор объявления
+     * @param id          идентификатор объявления
      * @param dto         тело изменения
      * @param userDetails информация о пользователе
      * @return информация об объявлении
      */
-    AdDTO updateAdsById(Integer pk, CreateOrUpdateAdDTO dto, String userDetails);
+    AdDTO updateAdsById(Integer id, CreateOrUpdateAdDTO dto, String userDetails);
 
     /**
      * Получить объявления авторизованного пользователя
@@ -66,9 +66,17 @@ public interface AdService {
     /**
      * Изменить картинку объявления по его идентификатору
      *
-     * @param pk    идентификатор объявления
+     * @param id    идентификатор объявления
      * @param image новая картинка объявления
      * @return измененная картинка объявления
      */
-    boolean updateAdImage(Integer pk, MultipartFile image);
+    boolean updateAdImage(Integer id, MultipartFile image);
+
+//    /**
+//     * Получить объявление по заголовку
+//     *
+//     * @param title заголовок объявления
+//     * @return объявление пользователя
+//     */
+//    AdsDTO findByTitleAd(String title);
 }

@@ -1,6 +1,5 @@
 package ru.skypro.sitesforresaleofthings.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,30 +23,31 @@ import java.util.Collection;
  */
 @Table(name = "ads")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AdEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pk_ad")
-    private Integer pk;
+    @Column(name = "id")
+    private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private UserEntity author;
 
     @Column(name = "image_path")
     private String imagePath;
 
-    @Column(name = "price_ad")
+    @Column(name = "price")
     private Integer price;
 
-    @Column(name = "title_ad")
+    @Column(name = "title")
     private String title;
 
-    @Column(name = "description_ad")
+    @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "ad")
-    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "adEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<CommentEntity> comments;
 }

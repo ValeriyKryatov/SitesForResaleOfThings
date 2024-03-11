@@ -68,21 +68,21 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public ExtendedAdDTO getFullAdsById(Integer pk) {
-        AdEntity entity = adRepository.findById(pk)
+    public ExtendedAdDTO getFullAdsById(Integer id) {
+        AdEntity entity = adRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         ExtendedAdDTO dto = adMapper.adEntityMapToDTO(entity);
         return dto;
     }
 
     @Override
-    public boolean deleteAdById(Integer pk, String userDetails) {
+    public boolean deleteAdById(Integer id, String userDetails) {
         UserEntity authorOrAdmin = userRepository.findByUsername(userDetails);
-        AdEntity entity = adRepository.findById(pk)
+        AdEntity entity = adRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         if (entity.getAuthor().getUsername().equals(userDetails)
                 || authorOrAdmin.getRole() == Role.ADMIN) {
-            adRepository.deleteById(pk);
+            adRepository.deleteById(id);
             return true;
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
@@ -91,12 +91,12 @@ public class AdServiceImpl implements AdService {
 
     @Override
     @Transactional
-    public AdDTO updateAdsById(Integer pk, CreateOrUpdateAdDTO dto, String userDetails) {
+    public AdDTO updateAdsById(Integer id, CreateOrUpdateAdDTO dto, String userDetails) {
         if (!validationService.validate(dto)) {
             throw new ValidationException(dto.toString());
         }
         UserEntity authorOrAdmin = userRepository.findByUsername(userDetails);
-        AdEntity entity = adRepository.findById(pk)
+        AdEntity entity = adRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         if (entity.getAuthor().getUsername().equals(userDetails)
                 || authorOrAdmin.getRole() == (Role.ADMIN)) {
@@ -127,12 +127,21 @@ public class AdServiceImpl implements AdService {
     }
 
     @Override
-    public boolean updateAdImage(Integer pk, MultipartFile image) {
+    public boolean updateAdImage(Integer id, MultipartFile image) {
         String imageId = imageService.addImage(image);
-        AdEntity entity = adRepository.findById(pk)
+        AdEntity entity = adRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         entity.setImagePath(imageId);
         adRepository.save(entity);
         return true;
     }
+
+//    @Override
+//    public AdsDTO findByTitleAd(String title) {
+//        List<AdDTO> dto = adRepository
+//                .findAdEntityByTitleContainingIgnoreCase(title).stream()
+//                .map(adMapper::mapToDTO)
+//                .collect(Collectors.toList());
+//        return new AdsDTO(dto.size(), dto);
+//    }
 }

@@ -24,24 +24,23 @@ import java.time.LocalDate;
 @Table(name = "comments")
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class CommentEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_pk_comment")
-    private Integer pk;
+    @Column(name = "id")
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     private UserEntity author;
 
-    @Column(name = "text_comment")
+    @Column(name = "text")
     private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "ad_id_pk")
-    private AdEntity ad;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "ad_id")
+    private AdEntity adEntity;
 
     @Column(name = "created_at")
     private Instant createdAt;

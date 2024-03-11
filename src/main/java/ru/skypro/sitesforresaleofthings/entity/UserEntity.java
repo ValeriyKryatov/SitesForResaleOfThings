@@ -46,7 +46,7 @@ public class UserEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password")
@@ -56,14 +56,13 @@ public class UserEntity {
     private String phone;
 
 
-    @Column(name = "user_role")
+    @Column(name = "user_role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "image")
     private String image;
 
-    @OneToMany(mappedBy = "author")
-    @JsonIgnore
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Collection<AdEntity> ads;
 }

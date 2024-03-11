@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.NewPasswordDTO;
 import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
+import ru.skypro.sitesforresaleofthings.service.ImageService;
 import ru.skypro.sitesforresaleofthings.service.UserService;
 
 import java.io.IOException;
@@ -31,7 +32,8 @@ import java.security.Principal;
 @Tag(name = "Пользователи")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
+//    private final ImageService imageService;
 
     @PostMapping("/set_password")   // http://localhost:8080/users/set_password
     @Operation(

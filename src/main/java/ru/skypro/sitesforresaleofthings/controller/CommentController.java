@@ -46,9 +46,9 @@ public class CommentController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentsDTO> getComments(@PathVariable Integer pk) {
+    public ResponseEntity<CommentsDTO> getComments(@PathVariable("id") Integer id) {
         try {
-            CommentsDTO commentDTO = commentService.getComments(pk);
+            CommentsDTO commentDTO = commentService.getComments(id);
             return ResponseEntity.ok(commentDTO);
         } catch (RuntimeException e) {
             e.getStackTrace();
@@ -72,11 +72,11 @@ public class CommentController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentDTO> addComment(@PathVariable Integer pk,
-                                                 @RequestBody CreateOrUpdateCommentDTO createOrUpdateCommentDTO,
+    public ResponseEntity<CommentDTO> addComment(@PathVariable("id") Integer id,
+                                                 @RequestBody CreateOrUpdateCommentDTO comments,
                                                  Principal principal) {
         try {
-            CommentDTO comment = commentService.saveComment(pk, createOrUpdateCommentDTO, principal.getName());
+            CommentDTO comment = commentService.saveComment(id, comments, principal.getName());
             return ResponseEntity.ok(comment);
         } catch (RuntimeException e) {
             e.getStackTrace();
@@ -104,11 +104,11 @@ public class CommentController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<?> deleteComment(@PathVariable Integer adPk,
-                                                    @PathVariable Integer commentId,
-                                                    Principal principal) {
+    public ResponseEntity<?> deleteComment(@PathVariable Integer adId,
+                                           @PathVariable Integer commentId,
+                                           Principal principal) {
         try {
-            return ResponseEntity.ok(commentService.deleteComment(adPk, commentId, principal.getName()));
+            return ResponseEntity.ok(commentService.deleteComment(adId, commentId, principal.getName()));
         } catch (RuntimeException e) {
             e.getStackTrace();
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -135,12 +135,12 @@ public class CommentController {
             responseCode = "404",
             description = "Not found"
     )
-    public ResponseEntity<CommentDTO> updateComment(@PathVariable Integer adPk,
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable Integer adId,
                                                     @PathVariable Integer commentId,
-                                                    @RequestBody CommentDTO dto,
+                                                    @RequestBody CommentDTO comment,
                                                     Principal principal) {
         try {
-            CommentDTO commentDTO = commentService.updateComment(adPk, commentId, dto, principal.getName());
+            CommentDTO commentDTO = commentService.updateComment(adId, commentId, comment, principal.getName());
             return ResponseEntity.ok(commentDTO);
         } catch (RuntimeException e) {
             e.getStackTrace();

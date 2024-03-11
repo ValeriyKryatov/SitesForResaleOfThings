@@ -25,7 +25,7 @@ public class AdMapper {
 
     public AdDTO mapToDTO(AdEntity entity) {
         AdDTO dto = new AdDTO();
-        dto.setPk(entity.getPk());
+        dto.setPk(entity.getId());
         dto.setAuthor(entity.getAuthor().getId());
         dto.setImage(entity.getImagePath());
         dto.setPrice(entity.getPrice());
@@ -40,7 +40,7 @@ public class AdMapper {
 
     public ExtendedAdDTO adEntityMapToDTO(AdEntity entity) {
         ExtendedAdDTO extendedAdDTO = new ExtendedAdDTO();
-        extendedAdDTO.setPk(entity.getPk());
+        extendedAdDTO.setPk(entity.getId());
         extendedAdDTO.setAuthorFirstName(entity.getAuthor().getFirstName());
         extendedAdDTO.setAuthorLastName(entity.getAuthor().getLastName());
         extendedAdDTO.setDescription(entity.getDescription());
