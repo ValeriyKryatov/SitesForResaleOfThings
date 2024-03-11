@@ -66,7 +66,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public byte[] loadImageFail(String fileName) {
+    public byte[] loadImageFile(String fileName) {
         File image;
         byte[] outputFileBytes = null;
         try {

@@ -10,19 +10,19 @@ import java.io.IOException;
  */
 public interface ImageService {
     /**
-     * Загружаем новое изображение
-     * @param image новое изображение
+     * Загружает новую картинку
+     * @param image новая картинка
      * @return название файла
      */
     String addImage(MultipartFile image);
 
     /**
-     * Загружает изображение по названию изображения
+     * Загружает картинку по названию картинки
      *
      * @param fileName название изображения
      * @return изображение в виде byte[]
      */
     byte[] loadImage(String fileName);
 
-    byte[] loadImageFail(String fileName);
+    byte[] loadImageFile(String fileName);
 }

@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
 /**
  * Реализация логики по работе с объявлениями
  */
-@Slf4j
 @Service
 @AllArgsConstructor
 public class AdServiceImpl implements AdService {
@@ -51,7 +50,6 @@ public class AdServiceImpl implements AdService {
 
     @Override
     public AdDTO addAd(CreateOrUpdateAdDTO dto, MultipartFile image, String userDetails) {
-
         if (!validationService.validate(dto)) {
             throw new ValidationException(dto.toString());
         }
@@ -136,12 +134,12 @@ public class AdServiceImpl implements AdService {
         return true;
     }
 
-//    @Override
-//    public AdsDTO findByTitleAd(String title) {
-//        List<AdDTO> dto = adRepository
-//                .findAdEntityByTitleContainingIgnoreCase(title).stream()
-//                .map(adMapper::mapToDTO)
-//                .collect(Collectors.toList());
-//        return new AdsDTO(dto.size(), dto);
-//    }
+    @Override
+    public AdsDTO findByTitleAd(String title) {
+        List<AdDTO> dto = adRepository
+                .findAdEntityByTitleContainingIgnoreCase(title).stream()
+                .map(adMapper::mapToDTO)
+                .collect(Collectors.toList());
+        return new AdsDTO(dto.size(), dto);
+    }
 }

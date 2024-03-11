@@ -21,10 +21,10 @@ import java.security.Principal;
  */
 
 @Slf4j
-@CrossOrigin(value = "http://localhost:3000")
+//@CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("ads")
+@RequestMapping("/ads")
 @Tag(name = "Комментарии")
 public class CommentController {
 

@@ -11,11 +11,11 @@ public interface UserService {
     /**
      * Обновление пароля
      *
-     * @param newPassword новый пароль
+     * @param password новый пароль
      * @param username информация о пользователе
      * @return true or false
      */
-    boolean setPassword(NewPasswordDTO newPassword, String username);
+    boolean setPassword(NewPasswordDTO password, String username);
 
     /**
      * Получить информацию об авторизованном пользователе

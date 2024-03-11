@@ -72,11 +72,11 @@ public interface AdService {
      */
     boolean updateAdImage(Integer id, MultipartFile image);
 
-//    /**
-//     * Получить объявление по заголовку
-//     *
-//     * @param title заголовок объявления
-//     * @return объявление пользователя
-//     */
-//    AdsDTO findByTitleAd(String title);
+    /**
+     * Получить объявление по заголовку
+     *
+     * @param title заголовок объявления
+     * @return объявление пользователя
+     */
+    AdsDTO findByTitleAd(String title);
 }

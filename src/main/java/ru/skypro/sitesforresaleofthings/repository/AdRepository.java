@@ -22,10 +22,10 @@ public interface AdRepository extends JpaRepository<AdEntity, Integer> {
      */
     List<AdEntity> findByAuthor(UserEntity author);
 
-//    /**
-//     * Поиск объявлений по заголовку
-//     * @param title заголовок объявления
-//     * @return список найденных объявлений
-//     */
-//    List<AdEntity> findAdEntityByTitleContainingIgnoreCase(String title);
+    /**
+     * Поиск объявлений по заголовку
+     * @param title заголовок объявления
+     * @return список найденных объявлений
+     */
+    List<AdEntity> findAdEntityByTitleContainingIgnoreCase(String title);
 }

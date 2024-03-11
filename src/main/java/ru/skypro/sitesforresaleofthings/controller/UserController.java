@@ -1,6 +1,8 @@
 package ru.skypro.sitesforresaleofthings.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.NewPasswordDTO;
 import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
+import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 import ru.skypro.sitesforresaleofthings.service.ImageService;
 import ru.skypro.sitesforresaleofthings.service.UserService;
 
@@ -25,7 +28,7 @@ import java.security.Principal;
  * Крнтроллер для работы с пользователями
  */
 @Slf4j
-@CrossOrigin(value = "http://localhost:3000")
+//@CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -33,7 +36,7 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-//    private final ImageService imageService;
+    private final ImageService imageService;
 
     @PostMapping("/set_password")   // http://localhost:8080/users/set_password
     @Operation(
@@ -65,7 +68,11 @@ public class UserController {
     )
     @ApiResponse(
             responseCode = "200",
-            description = "OK"
+            description = "OK",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = UserEntity.class)
+            )
     )
     @ApiResponse(
             responseCode = "401",
@@ -87,7 +94,11 @@ public class UserController {
     )
     @ApiResponse(
             responseCode = "200",
-            description = "OK"
+            description = "OK",
+            content = @Content(
+                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                    schema = @Schema(implementation = UserEntity.class)
+            )
     )
     @ApiResponse(
             responseCode = "401",
@@ -103,7 +114,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping(value = "/me/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PatchMapping(value = "/me/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     // http://localhost:8080:/users/me/image
     @Operation(
             summary = "Обновление аватара авторизованного пользователя"
@@ -119,6 +130,34 @@ public class UserController {
     public ResponseEntity<?> updateUserImage(@RequestPart(name = "image") MultipartFile image, Principal principal) {
         try {
             return ResponseEntity.ok().body(userService.updateUserImage(principal.getName(), image));
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping(value = "/image/{id}", produces = {
+            MediaType.IMAGE_PNG_VALUE,
+            MediaType.IMAGE_JPEG_VALUE,
+            MediaType.APPLICATION_OCTET_STREAM_VALUE,
+            MediaType.IMAGE_GIF_VALUE
+    }
+    )
+    @Operation(
+            summary = "Получить аватар пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK"),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found",
+                            content = @Content())
+            }
+    )
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
+        try {
+            return ResponseEntity.ok(imageService.loadImage(id));
         } catch (RuntimeException e) {
             e.getStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

@@ -26,7 +26,7 @@ import java.security.Principal;
  * Контроллер по работе с объявлениями
  */
 @Slf4j
-@CrossOrigin(value = "http://localhost:3000")
+//@CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ads")
@@ -34,7 +34,7 @@ import java.security.Principal;
 public class AdController {
 
     private final AdService adService;
-//    private final ImageService imageService;
+    private final ImageService imageService;
 
     @GetMapping
     @Operation(
@@ -254,13 +254,59 @@ public class AdController {
         }
     }
 
-//    public ResponseEntity<AdsDTO> findByTitleAd(@RequestParam String title) {
-//        try {
-//            AdsDTO dto = adService.findByTitleAd(title);
-//            return ResponseEntity.ok().body(dto);
-//        } catch (RuntimeException e) {
-//            e.getStackTrace();
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//        }
-//    }
+    @GetMapping("/find_by_title")
+    @Operation(
+            summary = "Поиск объявлений по заголовку",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = AdsDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    )
+            }
+    )
+    public ResponseEntity<AdsDTO> findByTitleAd(@RequestParam String title) {
+        try {
+            AdsDTO dto = adService.findByTitleAd(title);
+            return ResponseEntity.ok().body(dto);
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @GetMapping(value = "/image/{id}", produces = {
+            MediaType.IMAGE_PNG_VALUE,
+            MediaType.IMAGE_JPEG_VALUE,
+            MediaType.APPLICATION_OCTET_STREAM_VALUE
+    }
+    )
+    @Operation(
+            summary = "Получить картинку объявления",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found",
+                            content = @Content())
+            })
+
+    public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
+        try {
+            return ResponseEntity.ok(imageService.loadImageFile(id));
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
 }
