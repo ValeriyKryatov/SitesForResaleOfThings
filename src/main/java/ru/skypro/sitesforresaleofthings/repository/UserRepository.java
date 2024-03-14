@@ -7,8 +7,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 
-import java.util.Optional;
-
 /**
  * Создаем репозиторий для сущности "Пользователь"
  */

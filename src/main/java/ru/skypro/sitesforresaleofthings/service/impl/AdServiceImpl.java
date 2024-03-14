@@ -1,7 +1,6 @@
 package ru.skypro.sitesforresaleofthings.service.impl;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,7 +78,7 @@ public class AdServiceImpl implements AdService {
         AdEntity entity = adRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         if (entity.getAuthor().getUsername().equals(userDetails)
-                || authorOrAdmin.getRole() == Role.ADMIN) {
+                || authorOrAdmin.getRole().equals(Role.ADMIN)) {
             adRepository.deleteById(id);
             return true;
         } else {
@@ -97,14 +96,14 @@ public class AdServiceImpl implements AdService {
         AdEntity entity = adRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         if (entity.getAuthor().getUsername().equals(userDetails)
-                || authorOrAdmin.getRole() == (Role.ADMIN)) {
+                || authorOrAdmin.getRole().equals(Role.ADMIN)) {
             entity.setDescription(dto.getDescription());
             entity.setPrice(dto.getPrice());
             entity.setTitle(dto.getTitle());
             adRepository.save(entity);
             AdDTO adDTO = adMapper.mapToDTO(entity);
             return adDTO;
-        } else {
+       } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }

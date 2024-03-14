@@ -1,6 +1,5 @@
 package ru.skypro.sitesforresaleofthings.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -54,7 +53,6 @@ public class UserEntity {
 
     @Column(name = "phone")
     private String phone;
-
 
     @Column(name = "user_role", nullable = false)
     @Enumerated(EnumType.STRING)

@@ -37,9 +37,9 @@ public class ImageServiceImpl implements ImageService {
             imageEntity.setId(fileName);
             createDirectories(Paths.get(desktopPath));
             image.transferTo(new File(desktopPath + File.separator + fileName));
-            log.info("Image file created by  name: {}", fileName);
+            log.info("Файл картинки сосздан с именем: {}", fileName);
         } catch (IOException e) {
-            log.error("Error while saving image file{}", imageEntity.getId());
+            log.error("Ошибка при сохранении файла картинки {}", imageEntity.getId());
         }
         return imageEntity.getId();
     }
@@ -52,29 +52,29 @@ public class ImageServiceImpl implements ImageService {
             image = new File(desktopPath, fileName);
             if (exists(image.toPath())) {
                 outputFileBytes = readAllBytes(image.toPath());
-                log.info("loadImage: File loaded successfully");
+                log.info("Метод loadImage: Файл успешно загружен");
             } else {
                 try (InputStream in = new URL("").openStream()) {
                     outputFileBytes = in.readAllBytes();
-                    log.info("loadImage: File loaded default successfully");
+                    log.info("Метод loadImage: Файл по умолчанию успешно загружен");
                 }
             }
         } catch (IOException e) {
-            log.error("file load error");
+            log.error("Ошибка загрузки файла");
         }
         return outputFileBytes;
     }
 
     @Override
-    public byte[] loadImageFile(String fileName) {
+    public byte[] loadImageFail(String fileName) {
         File image;
         byte[] outputFileBytes = null;
         try {
             image = new File(desktopPath, fileName);
             outputFileBytes = readAllBytes(image.toPath());
-            log.info("loadImageFail: File loaded successfully");
+            log.info("Метод loadImageFail: Файл успешно загружен");
         } catch (IOException e) {
-            log.error("loadImageFail: Error while loading file {}", fileName);
+            log.error("Метод loadImageFail: Ошибка загрузки файла {}", fileName);
         }
         return outputFileBytes;
     }

@@ -73,7 +73,18 @@
       <artifactId>springdoc-openapi-ui</artifactId>
       <version>1.6.11</version>
     </dependency>
-<!--    <dependency>-->
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.testng</groupId>
+          <artifactId>testng</artifactId>
+          <version>RELEASE</version>
+          <scope>test</scope>
+      </dependency>
+      <!--    <dependency>-->
 <!--      <groupId>org.mapstruct</groupId>-->
 <!--      <artifactId>mapstruct</artifactId>-->
 <!--      <version>${org.mapstruct.version}</version>-->

@@ -3,7 +3,6 @@ package ru.skypro.sitesforresaleofthings.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.AdDTO;
@@ -26,7 +26,7 @@ import java.security.Principal;
  * Контроллер по работе с объявлениями
  */
 @Slf4j
-//@CrossOrigin(value = "http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ads")
@@ -110,7 +110,6 @@ public class AdController {
                     )
             }
     )
-
     public ResponseEntity<ExtendedAdDTO> getAds(@PathVariable Integer id) {
         try {
             ExtendedAdDTO dto = adService.getFullAdsById(id);
@@ -122,6 +121,7 @@ public class AdController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("@myUserDetailsService.loadUserByUsername(principal)")
     @Operation(
             summary = "Удаление объявления",
             responses = {
@@ -143,7 +143,6 @@ public class AdController {
                     )
             }
     )
-
     public ResponseEntity<?> removeAd(@PathVariable Integer id, Principal principal) {
         try {
             return ResponseEntity.ok().body(adService.deleteAdById(id, principal.getName()));
@@ -194,19 +193,19 @@ public class AdController {
     @Operation(
             summary = "Получение объявлений авторизованного пользователя",
             responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            schema = @Schema(implementation = AdsDTO.class)
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = AdsDTO.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
                     )
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"
-            )
-    }
+            }
     )
     public ResponseEntity<AdsDTO> getAdsMe(Principal principal) {
         try {
@@ -221,31 +220,31 @@ public class AdController {
     @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(
             summary = "Обновление картинки объявления",
-            responses= {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK",
-                    content = @Content(
-                            mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
-                            schema = @Schema(implementation = String[].class)
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+                                    schema = @Schema(implementation = String[].class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found"
                     )
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found"
-            )
-    }
+            }
     )
     public ResponseEntity<?> updateImage(@PathVariable Integer id,
-                                         @RequestPart MultipartFile image) {
+                                         @RequestPart(name = "image") MultipartFile image) {
         try {
             return ResponseEntity.ok().body(adService.updateAdImage(id, image));
         } catch (RuntimeException e) {
@@ -299,11 +298,11 @@ public class AdController {
                             responseCode = "404",
                             description = "Not found",
                             content = @Content())
-            })
-
+            }
+    )
     public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
         try {
-            return ResponseEntity.ok(imageService.loadImageFile(id));
+            return ResponseEntity.ok(imageService.loadImageFail(id));
         } catch (RuntimeException e) {
             e.getStackTrace();
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

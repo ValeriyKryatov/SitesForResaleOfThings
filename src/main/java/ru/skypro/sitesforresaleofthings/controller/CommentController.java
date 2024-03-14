@@ -1,7 +1,6 @@
 package ru.skypro.sitesforresaleofthings.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,7 @@ import java.security.Principal;
  */
 
 @Slf4j
-//@CrossOrigin(value = "http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/ads")

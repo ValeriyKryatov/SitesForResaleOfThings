@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
 
     private final ValidationService validationService;
     private final CommentRepository commentRepository;
-    private final AdRepository adsRepository;
+    private final AdRepository adRepository;
     private final CommentMapper commentMapper;
     private final UserRepository userRepository;
 
@@ -46,8 +46,8 @@ public class CommentServiceImpl implements CommentService {
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        AdEntity ad = adsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundEntityException("Сущность " + "Комментарий " + "не найдена!"));
+        AdEntity ad = adRepository.findById(id)
+                .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         CommentEntity entity = commentMapper.mapToEntity(dto, user, ad);
         commentRepository.save(entity);
         return commentMapper.mapToDTO(entity);
@@ -57,9 +57,9 @@ public class CommentServiceImpl implements CommentService {
     public CommentDTO updateComment(Integer adId, Integer commentId, CommentDTO dto, String userDetails) {
         UserEntity authorOrAdmin = userRepository.findByUsername(userDetails);
         CommentEntity comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundEntityException("Сущность " + "Комментарий " + "не найдена!"));
+                .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         if (comment.getAuthor().getUsername().equals(userDetails)
-                || authorOrAdmin.getRole() == (Role.ADMIN)) {
+                || authorOrAdmin.getRole().equals(Role.ADMIN)) {
             comment.setText(dto.getText());
             commentRepository.save(comment);
             CommentDTO commentDTO = commentMapper.mapToDTO(comment);
@@ -74,9 +74,9 @@ public class CommentServiceImpl implements CommentService {
     public boolean deleteComment(Integer adId, Integer commentId, String userDetails) {
         UserEntity authorOrAdmin = userRepository.findByUsername(userDetails);
         CommentEntity comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new NotFoundEntityException("Сущность " + "Комментарий " + "не найдена!"));
+                .orElseThrow(() -> new NotFoundEntityException("Сущность не найдена!"));
         if (comment.getAuthor().getUsername().equals(userDetails)
-                || authorOrAdmin.getRole() == (Role.ADMIN)) {
+                || authorOrAdmin.getRole().equals(Role.ADMIN)) {
             commentRepository.deleteById(commentId);
             return true;
         } else {

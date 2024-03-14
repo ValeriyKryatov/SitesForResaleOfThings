@@ -1,7 +1,7 @@
 package ru.skypro.sitesforresaleofthings.exception;
 
 /**
- * Ошибка отсутствия сущности.
+ * Исключение отсутствия сущности
  */
 public class NotFoundEntityException extends RuntimeException {
 

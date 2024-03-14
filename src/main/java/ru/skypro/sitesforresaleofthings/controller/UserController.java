@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,20 +13,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.NewPasswordDTO;
-import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
 import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 import ru.skypro.sitesforresaleofthings.service.ImageService;
 import ru.skypro.sitesforresaleofthings.service.UserService;
 
-import java.io.IOException;
 import java.security.Principal;
 
 /**
  * Крнтроллер для работы с пользователями
  */
 @Slf4j
-//@CrossOrigin(value = "http://localhost:3000")
+@CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
@@ -114,8 +110,7 @@ public class UserController {
         }
     }
 
-    @PatchMapping(value = "/me/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    // http://localhost:8080:/users/me/image
+    @PatchMapping(value = "/me/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}) // http://localhost:8080:/users/me/image
     @Operation(
             summary = "Обновление аватара авторизованного пользователя"
     )

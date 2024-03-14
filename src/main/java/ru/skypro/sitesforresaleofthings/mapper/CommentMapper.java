@@ -17,7 +17,7 @@ import java.util.TimeZone;
 @Service
 public class CommentMapper {
 
-       public CommentDTO mapToDTO(CommentEntity entity) {
+    public CommentDTO mapToDTO(CommentEntity entity) {
 
         TimeZone timeZone = TimeZone.getDefault();
         LocalDateTime localDateTime = LocalDateTime.ofInstant(entity.getCreatedAt(), timeZone.toZoneId());
@@ -26,13 +26,15 @@ public class CommentMapper {
         dto.setAuthor(entity.getAuthor().getId());
         dto.setAuthorFirstName(entity.getAuthor().getFirstName());
         dto.setPk(entity.getId());
-        dto.setCreatedAt(localDateTime);
-        dto.setText(entity.getText());
+
         if (entity.getAuthor().getImage() != null) {
             dto.setAuthorImage(String.format("/ads/image/%s", entity.getAuthor().getImage()));
         } else {
             dto.setAuthorImage(null);
         }
+
+        dto.setCreatedAt(localDateTime);
+        dto.setText(entity.getText());
         return dto;
     }
 

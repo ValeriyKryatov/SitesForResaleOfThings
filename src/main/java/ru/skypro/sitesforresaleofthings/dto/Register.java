@@ -1,11 +1,11 @@
 package ru.skypro.sitesforresaleofthings.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.skypro.sitesforresaleofthings.constant.Regex;
 import ru.skypro.sitesforresaleofthings.constant.Role;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -24,6 +24,8 @@ import javax.validation.constraints.Size;
  * 6) role - роль пользователя (USER, ADMIN)
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Register {
 
     @NotBlank
