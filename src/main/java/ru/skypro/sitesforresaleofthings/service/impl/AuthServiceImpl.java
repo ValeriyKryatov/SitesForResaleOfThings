@@ -59,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
             userRepository.save(newUser);
             return true;
         } catch (RuntimeException e) {
-            e.getStackTrace();
+            log.info("Пользователь не зарегистрирован");
             return false;
         }
     }

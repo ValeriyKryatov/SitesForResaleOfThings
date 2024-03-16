@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.NewPasswordDTO;
+import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
 import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 import ru.skypro.sitesforresaleofthings.service.ImageService;
@@ -100,10 +101,10 @@ public class UserController {
             responseCode = "401",
             description = "Unauthorized"
     )
-    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO dto, Principal principal) {
+    public ResponseEntity<UpdateUserDTO> updateUser(@RequestBody UpdateUserDTO dto, Principal principal) {
         try {
-            UserDTO userDTO = userService.updateUser(dto, principal.getName());
-            return ResponseEntity.ok(userDTO);
+            UpdateUserDTO updateUserDTO = userService.updateUser(dto, principal.getName());
+            return ResponseEntity.ok(updateUserDTO);
         } catch (RuntimeException e) {
             e.getStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

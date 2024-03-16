@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import ru.skypro.sitesforresaleofthings.dto.NewPasswordDTO;
+import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
 import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 import ru.skypro.sitesforresaleofthings.exception.NotFoundEntityException;
@@ -59,16 +60,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public UserDTO updateUser(UserDTO user, String username) {
+    public UpdateUserDTO updateUser(UpdateUserDTO user, String username) {
         UserEntity userDB = userRepository.findByUsername(username);
-        userDB.setId(user.getId());
+//        userDB.setId(user.getId());
         userDB.setFirstName(user.getFirstName());
         userDB.setLastName(user.getLastName());
         userDB.setPhone(user.getPhone());
-        userDB.setImage(user.getImage());
-        userDB.setEmail(user.getEmail());
+//        userDB.setImage(user.getImage());
+//        userDB.setEmail(user.getEmail());
         userRepository.save(userDB);
-        return userMapper.mapToDTO(userDB);
+        return userMapper.updateMapToDTO(userDB);
     }
 
     @Override

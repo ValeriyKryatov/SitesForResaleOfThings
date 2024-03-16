@@ -2,6 +2,7 @@ package ru.skypro.sitesforresaleofthings.mapper;
 
 import org.springframework.stereotype.Service;
 import ru.skypro.sitesforresaleofthings.dto.Register;
+import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
 import ru.skypro.sitesforresaleofthings.entity.UserEntity;
 
@@ -33,9 +34,15 @@ public class UserMapper {
         dto.setRole(entity.getRole());
         if (entity.getImage() != null) {
             dto.setImage(String.format("/users/image/%s", entity.getImage()));
-        } else {
-            dto.setImage(null);
         }
+        return dto;
+    }
+
+    public UpdateUserDTO updateMapToDTO(UserEntity entity) {
+        UpdateUserDTO dto = new UpdateUserDTO();
+        dto.setFirstName(entity.getFirstName());
+        dto.setLastName(entity.getLastName());
+        dto.setPhone(entity.getPhone());
         return dto;
     }
 }
