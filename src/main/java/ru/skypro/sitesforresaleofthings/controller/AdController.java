@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.AdDTO;
 import ru.skypro.sitesforresaleofthings.dto.AdsDTO;
 import ru.skypro.sitesforresaleofthings.dto.CreateOrUpdateAdDTO;
 import ru.skypro.sitesforresaleofthings.dto.ExtendedAdDTO;
+import ru.skypro.sitesforresaleofthings.entity.AdEntity;
 import ru.skypro.sitesforresaleofthings.service.AdService;
 import ru.skypro.sitesforresaleofthings.service.ImageService;
 
@@ -67,7 +67,7 @@ public class AdController {
                             description = "Created",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = AdDTO.class)
+                                    schema = @Schema(implementation = AdEntity.class)
                             )
                     ),
                     @ApiResponse(
@@ -121,7 +121,7 @@ public class AdController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("@myUserDetailsService.loadUserByUsername(principal)")
+//    @PreAuthorize("@myUserDetailsService.loadUserByUsername(principal)")
     @Operation(
             summary = "Удаление объявления",
             responses = {

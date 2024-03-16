@@ -32,8 +32,8 @@ public class AdMapper {
         dto.setTitle(entity.getTitle());
         if (entity.getImagePath() != null) {
             dto.setImage(String.format("/ads/image/%s", entity.getImagePath()));
-        } else {
-            dto.setImage(null);
+//        } else {
+//            dto.setImage(null);
         }
         return dto;
     }
@@ -50,8 +50,8 @@ public class AdMapper {
         extendedAdDTO.setTitle(entity.getTitle());
         if (entity.getImagePath() != null) {
             extendedAdDTO.setImage(String.format("/ads/image/%s", entity.getImagePath()));
-        } else {
-            extendedAdDTO.setImage(null);
+//        } else {
+//            extendedAdDTO.setImage(null);
         }
         return extendedAdDTO;
     }

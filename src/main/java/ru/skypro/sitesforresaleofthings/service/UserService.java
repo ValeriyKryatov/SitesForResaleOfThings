@@ -2,6 +2,7 @@ package ru.skypro.sitesforresaleofthings.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.sitesforresaleofthings.dto.NewPasswordDTO;
+import ru.skypro.sitesforresaleofthings.dto.UpdateUserDTO;
 import ru.skypro.sitesforresaleofthings.dto.UserDTO;
 
 /**
@@ -32,7 +33,7 @@ public interface UserService {
      * @param username информация о пользователе
      * @return измененный пользователей
      */
-    UserDTO updateUser(UserDTO user, String username);
+    UpdateUserDTO updateUser(UpdateUserDTO user, String username);
 
     /**
      * Обновить аватар авторизованного пользователя

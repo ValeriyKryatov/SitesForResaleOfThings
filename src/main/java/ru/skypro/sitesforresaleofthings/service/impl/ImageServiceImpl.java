@@ -37,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
             imageEntity.setId(fileName);
             createDirectories(Paths.get(desktopPath));
             image.transferTo(new File(desktopPath + File.separator + fileName));
-            log.info("Файл картинки сосздан с именем: {}", fileName);
+            log.info("Файл картинки создан с именем: {}", fileName);
         } catch (IOException e) {
             log.error("Ошибка при сохранении файла картинки {}", imageEntity.getId());
         }
@@ -81,8 +81,9 @@ public class ImageServiceImpl implements ImageService {
 
     private String type(MultipartFile image) {
         String type = image.getContentType();
-        assert type != null;
-        type = type.replace("image/", ".");
+        if (type != null) {
+            type = type.replace("image/", ".");
+        }
         return type;
     }
 }
